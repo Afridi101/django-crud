@@ -1,0 +1,49 @@
+{% load static %} {% include 'header.html' %} {% include 'nav.html' %}
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    {% with curl='add-user' %}
+        {% if edit is not None and edit %}
+            {% with curl='edit-user' %}
+            <form action="{% url curl %}"  method="POST">
+            {% endwith %}
+        {% else %}
+            <form action="{% url curl %}"  method="POST">
+        {% endif %}
+      {% endwith %}
+
+      {% if edit is not None and edit %}
+        <div class="h5 text-center mt-5">Edit User</div>
+      {% else %}
+        <div class="h5 text-center mt-5">Add User</div>
+      {% endif %}
+        {% if messages %}
+              {% for message in messages %}
+                  <div class="text text-center alert alert-danger mt-3">
+                      {{ message }}
+                  </div>
+              {% endfor %}
+        {% endif %}
+      {% csrf_token %} 
+      {% for field in form %}
+      <div class="mb-3">
+        {{ field.label_tag }} {{ field }} 
+        {% if field.errors %} 
+            {% for error in field.errors %}
+        <div class="text text-danger">{{ error }}</div>
+            {% endfor %} 
+        {% endif %}
+      </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary btn-block">
+        {% if edit is not None and edit %}
+          Edit User
+        {% else %}
+          Add User
+        {% endif %}
+      </button>
+    </form>
+  </div>
+  <div class="col-md-4"></div>
+</div>
+{% include 'footer.html' %}
