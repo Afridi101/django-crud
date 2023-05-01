@@ -1,0 +1,60 @@
+{% load static %} {% include 'header.html' %} {% include 'nav.html' %}
+<div class="container-fluid row mt-5">
+    {% if messages %} {% for message in messages %}
+    <div class="col-md-1"></div>
+    <div class="col-md-10 alert alert-success">
+        {{ message }}
+    </div>
+    <div class="col-md-1"></div>
+    {% endfor %} {% endif %}
+</div>
+<div class="container-fluid row mt-5">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="col-md-2">
+            <a href="{% url 'add-form' %}" class="btn btn-sm btn-success btn-block mb-2">+ Add</a>
+        </div>
+        <!-- table start -->
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">
+                        Thumnail
+                    </th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+             {% if test %}
+                {% with row_num=1 %}
+                    {% for tests in test %}
+                    <tr>
+                    <th scope="row">
+                    {% with row_num=row_num|add:row_num %}
+                        {{ row_num }}
+                    {% endwith %}
+                    </th>
+                    <td>
+                        <img src="/" alt="Image not found" class="img img-responsive">
+                    </td>
+                    <td>{{ tests.name }}</td>
+                    <td>{{ tests.email }}</td>
+                    <td>
+                        <a href="{% url 'edit-form' tests.id %}" class="btn btn-info btn-sm">Edit</a> &nbsp;
+                        <a href="" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% endwith %}
+        {% endif %}   
+            </tbody>
+        </table>
+        <!-- table end -->
+    </div>
+    <div class="col-md-1"></div>
+</div>
+{% include 'footer.html' %}
