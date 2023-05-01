@@ -5,12 +5,15 @@ from Auth.models import Test
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from Home.is_auth import is_auth
 # Create your views here.
 
 # login
 
 
 def login(request):
+    if is_auth(request):
+        return redirect('user')
     return render(request, 'Auth/login.html')
 
 
@@ -21,17 +24,15 @@ def loging(request):
     if request.method == "POST":
         try:
             user = Test.objects.get(email=email)
-            print(user)
         except Test.DoesNotExist:
             user = None
-            print(user)
         if user is not None and check_password(password, user.password):
-            print(user)
-            # login(request, user)
+            print(user.id)
+            request.session['user'] = user.id
             return redirect('user')
         else:
             messages.error(request, 'Invalid email or password')
-            return render(request, 'Auth/login.html')
+            return redirect('login')
 
 
 def signup(request):
@@ -47,7 +48,6 @@ def signup(request):
 
 
 # logout
-@login_required(login_url="login")
 def logout(request):
-    logout(request)
+    del request.session['user']
     return redirect('login')

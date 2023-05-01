@@ -4,22 +4,27 @@ from django.contrib.auth.hashers import make_password
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-
 from Auth.models import Test
-
 from .forms import userForm
+from .is_auth import is_auth
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 class Home:
     def home(request):
-        return render(request, 'Home/home.html')
+        if is_auth(request):
+            return render(request, 'Home/home.html')
+        else:
+            return redirect('login')
 
     def user(request):
         test = Test.objects.all()
         messages.success(request, '')
         messages.error(request, '')
-        return render(request, 'Home/user.html', {'test': test})
+        if not is_auth(request):
+            redirect('login')
+        else:
+            return render(request, 'Home/user.html', {'test': test})
 
     def add_form(request):
         form = userForm()

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-h&oq$0re_8wc2ca&(ni&tc1x6dfjd!t83z^^a2mbl=9%7lw(0p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -80,9 +80,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pharma',
         'USER': 'root',
-        'PASSWORD':'',
-        'HOST':'localhost',
-        'PORT':'3306',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -117,6 +117,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+MY_FILE_PATH = 'path/to/Pharma/is_auth'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
